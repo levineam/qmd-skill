@@ -98,6 +98,25 @@ qmd update                      # Re-index changed files
 qmd embed                       # Update embeddings
 ```
 
+## Keeping the index fresh
+
+Automate indexing so results stay current as you add/edit notes.
+
+- For keyword search (`qmd search`), `qmd update` is usually enough (fast).
+- If you rely on semantic/hybrid search (`vsearch`/`query`), you may also want `qmd embed`, but it can be slow.
+
+Example schedules (cron):
+
+```bash
+# Hourly incremental updates (keeps BM25 fresh):
+0 * * * * export PATH="$HOME/.bun/bin:$PATH" && qmd update
+
+# Optional: nightly embedding refresh (can be slow):
+0 5 * * * export PATH="$HOME/.bun/bin:$PATH" && qmd embed
+```
+
+If your Clawdbot/agent environment supports a built-in scheduler, you can run the same commands there instead of system cron.
+
 ## Models and cache
 
 - Uses local GGUF models; first run auto-downloads them.
